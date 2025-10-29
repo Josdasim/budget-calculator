@@ -1,0 +1,9 @@
+# Testing
+pytest
+pytest-cov
+
+# Code Quality
+black
+flake8
+mypy
+
