@@ -6,7 +6,8 @@ Tests para la clase Transaction.
 import pytest
 from decimal import Decimal
 from src.budget_calculator.models.transaction import Transaction
-
+from src.budget_calculator.models.transaction_type import TransactionType
+from datetime import datetime
 
 # =========================================
 #            TESTS DE CREACION            #
@@ -75,3 +76,71 @@ def test_create_transaction_with_amount_zero():
 
     with pytest.raises(ValueError):
         transaction = Transaction(transaction_type,description,amount,category)
+
+
+def test_transaction_to_dict():
+    """
+    Verifica que to_dict() convierte correctamente la transacción.
+    """
+    date = datetime(2024, 1, 15, 10, 30, 0)
+    transaccion = Transaction(
+        transaction_id = "test-id-123",
+        transaction_type = TransactionType.EXPENSE,
+        description = "Compra online",
+        amount = 89000,
+        category = "Compras",
+        create_at = date,
+        
+    )
+
+    resultado = transaccion.to_dict()
+
+    assert resultado["transaction_id"] == "test-id-123"
+    assert resultado["transaction_type"] == "gasto"  # String, no Enum
+    assert resultado["description"] == "Compra online"
+    assert resultado["amount"] == 89000
+    assert resultado["category"] == "Compras"
+    assert resultado["create_at"] == date.isoformat()
+    
+    
+def test_transaction_from_dict():
+        """
+        Verifica que from_dict() reconstruye correctamente la transacción.
+        """
+        data = {
+            "transaction_id": "test-id-456",
+            "transaction_type": "ingreso",
+            "description": "Venta producto",
+            "amount": 25000,
+            "category": "Ventas",
+            "create_at": "2024-01-20T14:30:00"
+        }
+        
+        transaccion = Transaction.from_dict(Transaction,data)
+        
+        assert transaccion.transaction_id == "test-id-456"
+        assert transaccion.transaction_type == TransactionType.INCOME
+        assert transaccion.description == "Venta producto"
+        assert transaccion.amount == Decimal("25000")
+        assert transaccion.category == "Ventas"
+        assert transaccion.create_at == datetime(2024, 1, 20, 14, 30, 0)
+    
+def test_two_different_transaction_id():
+    """
+    Verifica que dos transacciones generan IDs únicos automáticamente.
+    """
+    transaccion1 = Transaction(
+        transaction_type = TransactionType.INCOME,
+        description = "Transacción 1",
+        amount = 10000,
+        category = "Test"
+    )
+    
+    transaccion2 = Transaction(
+        transaction_type = TransactionType.EXPENSE,
+        description = "Transacción 2",
+        amount = 10000,
+        category = "Test"
+    )
+    
+    assert transaccion1.transaction_id != transaccion2.transaction_id
