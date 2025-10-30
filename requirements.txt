@@ -1,9 +1,10 @@
 # Testing
-pytest
-pytest-cov
+pytest==8.4.2
+pytest-cov==7.0.0
 
 # Code Quality
-black
-flake8
-mypy
+black==25.9.0
+flake8==7.3.0
+mypy==1.18.2
 
+uuid6==2025.0.1
