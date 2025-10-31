@@ -30,7 +30,7 @@ Arquitectura de 3 capas basada en los principios de **Arquitectura Limpia (Clean
       - description: str
       - amount: Decimal
       - category: str
-      - transaction_date: datetime
+      - create_at: datetime
 
 ### Modelo de Presupuesto
 

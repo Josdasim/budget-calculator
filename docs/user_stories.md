@@ -78,7 +78,7 @@
 ## HU-007: Modificar una Transacción
 ***Como*** usuario,  
 ***Quiero*** poder editar una transacción existente,  
-**Para*** corregir errores sin tener que borrarla y crear un*a nueva.
+**Para*** corregir errores sin tener que borrarla y crear una nueva.
 
 ### ✅ Criterios de Aceptación
 - [ ] Puedo seleccionar una transacción de la lista.
